@@ -1,0 +1,25 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: grey;
+    gap:20px;
+}
+
+.scoreBoard {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-end;
+    min-height: 300px;
+}
+
+.you,
+.other {
+    text-align: center;
+}
+
+.choiceBtn {
+    min-height: 150px;
+    min-width: 120px;
+}
+

@@ -4,9 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    
+    <div class="scoreBoard">
+        <div class="you">
+            <p>You</p>
+            <p id="humanScoreElement">0</p>
+        </div>
+        <div>
+            <p>vs</p>
+        </div>
+        <div class="other">
+            <p>Computer</p>
+            <p id="computerScoreElement">0</p>
+        </div>
+    </div>
+    <div>
+        <h1 id="resultArea">Start by clicking Option</h1>
+    </div>
+    <div class="buttonArea">
+        <button class ="choiceBtn" id="rock">Rock</button>
+        <button class="choiceBtn">Paper</button>
+        <button class="choiceBtn">Scissor</button> 
+    </div>
+    <div class="settingArea">
+        <button class="reply settingBtn">Replay</button>
+    </div>
 </body>
 </html>

@@ -12,11 +12,6 @@ function getComputerChoice() {
     };
 };
 
-function getHumanChoice() {
-    humanChoice = prompt("Choose Rock Paper Scissors","rock");
-    return humanChoice;
-};
-
 function playRound (humanChoice, computerChoice ) {
     computerChoice = computerChoice.toLowerCase();
     humanChoice = humanChoice.toLowerCase();
@@ -62,9 +57,9 @@ function playRound (humanChoice, computerChoice ) {
     }
 }
 
-function playGame() {
+function playGame(element) {
     for (let i = 0; i < 5; i++) {
-        console.log(playRound(getHumanChoice(), getComputerChoice()))
+        console.log(playRound(element, getComputerChoice()))
         console.log(`Computer ${computerScore} : Human ${humanScore}`)
     }
 
@@ -77,6 +72,31 @@ function playGame() {
     };
 }
 
+chooseRock = document.getElementById("rock")
+choosePaper = document.getElementById("paper")
+chooseScissors = document.getElementById("scissors")
+
+humanScoreElement = document.getElementById("humanScoreElement");
+computerScoreElement = document.getElementById("computerScoreElement");
+
+resultArea = document.getElementById('resultArea');
+
 let humanScore = 0, computerScore = 0;
-playGame();
+
+chooseRock.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log("gg");
+    resultArea.textContent = (playRound('rock', getComputerChoice()));
+    console.log(resultArea.textContent);
+    console.log(`Human: ${humanScore} vs Computer: ${computerScore}`)
+
+    //resultArea.textContent = playRound('rock', getComputerChoice());
+    humanScoreElement.textContent = humanScore;
+    computerScoreElement.textContent = computerScore;
+});
+
+
+
+
+
 
