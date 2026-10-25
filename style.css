@@ -1,25 +1,433 @@
+/* ---------- theme tokens ---------- */
+
+:root {
+    --bg: linear-gradient(160deg, #e0f2fe 0%, #ede9fe 55%, #fce7f3 100%);
+    --surface: #ffffff;
+    --surface-alt: #f1f5f9;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --accent: #6366f1;
+    --accent-soft: #e0e7ff;
+    --accent-text: #ffffff;
+    --human: #6366f1;
+    --computer: #ec4899;
+    --win: #16a34a;
+    --lose: #dc2626;
+    --draw: #d97706;
+    --shadow: 0 10px 30px rgba(30, 41, 59, 0.10);
+    --radius: 18px;
+    color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+    --bg: linear-gradient(160deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+    --surface: #1e293b;
+    --surface-alt: #0f172a;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --border: #334155;
+    --accent: #818cf8;
+    --accent-soft: #312e81;
+    --accent-text: #0f172a;
+    --human: #818cf8;
+    --computer: #f472b6;
+    --win: #4ade80;
+    --lose: #f87171;
+    --draw: #fbbf24;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.40);
+    color-scheme: dark;
+}
+
+/* ---------- base ---------- */
+
+* {
+    box-sizing: border-box;
+}
+
 body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px;
+    background: var(--bg);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: "Poppins", system-ui, -apple-system, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+p {
+    margin: 0;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+button:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.game {
+    width: 100%;
+    max-width: 560px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color: grey;
-    gap:20px;
+    gap: 16px;
 }
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* ---------- header ---------- */
+
+.topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.iconButton {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    font-size: 1.25rem;
+}
+
+/* ---------- 1. score board ---------- */
 
 .scoreBoard {
-    display: flex;
-    gap: 3rem;
-    align-items: flex-end;
-    min-height: 300px;
-}
-
-.you,
-.other {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
     text-align: center;
 }
 
-.choiceBtn {
-    min-height: 150px;
-    min-width: 120px;
+.label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
 }
 
+.score {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.score.human {
+    color: var(--human);
+}
+
+.score.computer {
+    color: var(--computer);
+}
+
+.round,
+.target {
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.vsText {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* ---------- 2. animation area ---------- */
+
+.arena {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.timer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.timerTrack {
+    flex: 1;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--surface-alt);
+    overflow: hidden;
+}
+
+.timerBar {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--accent);
+    transition: width 50ms linear, background-color 0.2s;
+}
+
+.timerBar.urgent {
+    background: var(--lose);
+}
+
+.timerText {
+    min-width: 3.5ch;
+    text-align: right;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+}
+
+.hands {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 180px;
+    padding: 24px 32px;
+    border-radius: 14px;
+    background: var(--surface-alt);
+}
+
+.hand {
+    font-size: clamp(4rem, 18vw, 6rem);
+    line-height: 1;
+}
+
+.glyph {
+    display: inline-block;
+}
+
+/* both hands point at each other */
+.humanHand .glyph {
+    transform: rotate(90deg);
+}
+
+.computerHand .glyph {
+    transform: scaleX(-1) rotate(90deg);
+}
+
+.hand.idle {
+    animation: bob 1.6s ease-in-out infinite;
+}
+
+.hand.shake {
+    animation: pump 0.3s ease-in-out 3;
+}
+
+.hand.pop {
+    animation: pop 0.35s ease-out;
+}
+
+.hand.timedOut {
+    opacity: 0.35;
+    filter: grayscale(1);
+}
+
+@keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* the "rock, paper, scissors" pump: hand goes up and comes down hard */
+@keyframes pump {
+    0% { transform: translateY(0); }
+    45% { transform: translateY(-48px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes pop {
+    0% { transform: scale(0.7); }
+    60% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+/* ---------- 3. announcement ---------- */
+
+.announcement {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+#resultArea {
+    min-height: 1.5em;
+}
+
+#resultArea.win {
+    color: var(--win);
+}
+
+#resultArea.lose,
+#resultArea.timeout {
+    color: var(--lose);
+}
+
+#resultArea.draw {
+    color: var(--draw);
+}
+
+/* ---------- 4. selection ---------- */
+
+.buttonArea {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 8px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: transform 0.15s, border-color 0.15s, opacity 0.2s;
+}
+
+.choice:hover:not(:disabled) {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+}
+
+.choice:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.choice.picked,
+.choice.picked:disabled {
+    opacity: 1;
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.choiceIcon {
+    font-size: 2.25rem;
+    line-height: 1.2;
+}
+
+kbd {
+    font-family: inherit;
+    font-size: 0.75rem;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0 6px;
+}
+
+/* ---------- 5. controls ---------- */
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.difficulty {
+    display: flex;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--surface-alt);
+}
+
+.level {
+    border: none;
+    background: transparent;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.level small {
+    font-weight: 400;
+    opacity: 0.75;
+}
+
+.level[aria-pressed="true"] {
+    background: var(--surface);
+    color: var(--accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.level:disabled {
+    cursor: not-allowed;
+}
+
+.level:disabled:not([aria-pressed="true"]) {
+    opacity: 0.5;
+}
+
+.primary {
+    border: none;
+    border-radius: 999px;
+    padding: 12px 24px;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: filter 0.15s;
+}
+
+.primary:hover {
+    filter: brightness(1.08);
+}
+
+/* ---------- small screens & reduced motion ---------- */
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.25rem;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .difficulty {
+        justify-content: space-between;
+    }
+
+    .hands {
+        padding: 24px 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hand.idle,
+    .hand.pop {
+        animation: none;
+    }
+}

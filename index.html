@@ -3,34 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock Paper Scissors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="scoreBoard">
-        <div class="you">
-            <p>You</p>
-            <p id="humanScoreElement">0</p>
-        </div>
-        <div>
-            <p>vs</p>
-        </div>
-        <div class="other">
-            <p>Computer</p>
-            <p id="computerScoreElement">0</p>
-        </div>
-    </div>
-    <div>
-        <h1 id="resultArea">Start by clicking Option</h1>
-    </div>
-    <div class="buttonArea">
-        <button class ="choiceBtn" id="rock">Rock</button>
-        <button class="choiceBtn">Paper</button>
-        <button class="choiceBtn">Scissor</button> 
-    </div>
-    <div class="settingArea">
-        <button class="reply settingBtn">Replay</button>
-    </div>
+    <main class="game">
+        <header class="topBar">
+            <h1 class="title">Rock · Paper · Scissors</h1>
+            <button id="themeToggle" class="iconButton" aria-label="Switch to night mode">🌙</button>
+        </header>
+
+        <!-- 1. Score board -->
+        <section class="panel scoreBoard">
+            <div class="player">
+                <p class="label">You</p>
+                <p id="humanScoreElement" class="score human">0</p>
+            </div>
+            <div class="vs">
+                <p id="roundElement" class="round">Round 0</p>
+                <p class="vsText">vs</p>
+                <p class="target">First to 5</p>
+            </div>
+            <div class="player">
+                <p class="label">Computer</p>
+                <p id="computerScoreElement" class="score computer">0</p>
+            </div>
+        </section>
+
+        <!-- 2. Animation area -->
+        <section class="panel arena">
+            <div class="timer">
+                <div class="timerTrack">
+                    <div id="timerBar" class="timerBar"></div>
+                </div>
+                <span id="timerText" class="timerText">--</span>
+            </div>
+            <div class="hands">
+                <div id="humanHand" class="hand humanHand idle"><span class="glyph">✊</span></div>
+                <div id="computerHand" class="hand computerHand idle"><span class="glyph">✊</span></div>
+            </div>
+        </section>
+
+        <!-- 3. Announcement -->
+        <section class="panel announcement">
+            <p id="resultArea" aria-live="polite">Pick a difficulty and press Start</p>
+        </section>
+
+        <!-- 4. Selection -->
+        <section class="buttonArea">
+            <button class="choice" data-choice="rock" disabled>
+                <span class="choiceIcon">✊</span>
+                <span>Rock</span>
+                <kbd>R</kbd>
+            </button>
+            <button class="choice" data-choice="paper" disabled>
+                <span class="choiceIcon">✋</span>
+                <span>Paper</span>
+                <kbd>P</kbd>
+            </button>
+            <button class="choice" data-choice="scissors" disabled>
+                <span class="choiceIcon">✌️</span>
+                <span>Scissors</span>
+                <kbd>S</kbd>
+            </button>
+        </section>
+
+        <!-- 5. Controls: difficulty + start / replay -->
+        <section class="panel controls">
+            <div class="difficulty" role="group" aria-label="Difficulty">
+                <button class="level" data-level="easy" aria-pressed="false">Easy <small>5s</small></button>
+                <button class="level" data-level="medium" aria-pressed="true">Medium <small>3s</small></button>
+                <button class="level" data-level="hard" aria-pressed="false">Hard <small>1.5s</small></button>
+            </div>
+            <button id="startButton" class="primary">▶ Start</button>
+        </section>
+    </main>
 </body>
 </html>
